@@ -50,8 +50,8 @@ class Candles {
     var mode = OandaMode.FXTrader
     
     func getRequest(from: Date, to: Date) -> URLRequest {
-        let fromString = Date.ISOStringFromDate(date: from)
-        let toString = Date.ISOStringFromDate(date: to)
+        let fromString = Date.ISOStringFromDate(date: Calendar.current.date(bySettingHour: 1, minute: 0, second: 0, of: from)!)
+        let toString = Date.ISOStringFromDate(date: Calendar.current.date(bySettingHour: 1, minute: 0, second: 0, of: to)!)
         var mode = "";
         switch self.mode {
         case .FXTrader:
