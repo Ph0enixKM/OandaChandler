@@ -50,8 +50,8 @@ class Candles {
     var mode = OandaMode.FXTrader
     
     func getRequest(from: Date, to: Date) -> URLRequest {
-        let fromString = Date.ISOStringFromDate(date: Calendar.current.date(bySettingHour: 1, minute: 0, second: 0, of: from)!)
-        let toString = Date.ISOStringFromDate(date: Calendar.current.date(bySettingHour: 1, minute: 0, second: 0, of: to)!)
+        let fromString = Date.ISOStringFromDate(date: from)
+        let toString = Date.ISOStringFromDate(date: to)
         var mode = "";
         switch self.mode {
         case .FXTrader:
@@ -77,19 +77,24 @@ class Candles {
 
     // TODO: Move granularity and instrument to it's own UI Elements
     func fetchCandles(from: Date, to: Date, granularity: String, instrument: String, api_key: String, mode: OandaMode, cb: (Double) -> Void) async -> Bool {
+        let fromDate = Calendar.current.date(bySettingHour: 1, minute: 0, second: 0, of: from)!
+        let toDate = Calendar.current.date(bySettingHour: 1, minute: 0, second: 0, of: to)!
         self.granularity = granularity
         self.instrument = instrument
         self.api_key = api_key
         self.mode = mode
-        var currentDate = from;
-        var nextDate = from + self.hour();
-        var index = 0;
-        let interval = to.timeIntervalSince(from)
+        var currentDate = fromDate
+        var nextDate = fromDate + self.hour()
+        var index = 0
+        let interval = toDate.timeIntervalSince(fromDate)
         let hours = interval / 3600
         var result: [(Int, [Candle])] = []
         while (nextDate <= to) {
             let batch = await withTaskGroup(of: (Int, [Candle])?.self) { group -> [(Int, [Candle])] in
                 for _ in 0...25 {
+                    if (currentDate >= to) {
+                        break
+                    }
                     let request = self.getRequest(from: currentDate, to: nextDate)
                     let idx = index
                     index += 1
@@ -101,7 +106,7 @@ class Candles {
                             if decoded.starts(with: "{\"errorMessage") {
                                 self.error = decoded
                             }
-                            print(String(decoding: data, as: UTF8.self))
+//                            print(String(decoding: data, as: UTF8.self))
                             let candleData = try JSONDecoder().decode(CandleData.self, from: data)
                             return (idx, candleData.candles)
                         } catch {
@@ -122,10 +127,16 @@ class Candles {
             cb(Double(index) / hours)
             result += batch
         }
+//        print(result.sorted(by: { (a, b) in a.0 < b.0 }).map { ($0.0, $0.1.first?.time, $0.1.last?.time, $0.1.count) })
+//        print(result.map { $0.1.map { $0.time } })
+//        print(result.map { $0.count })
+//        print(result)
         self.candles = result
             .sorted(by: { (a, b) in a.0 < b.0 })
             .map { $0.1 }
             .reduce([], +)
+        
+        print(self.candles?.first)
         return self.candles?.isEmpty == false
     }
     
@@ -138,8 +149,8 @@ class Candles {
     
     func generateCSV(_ url: URL, callback: (Double) -> Void) throws {
         // Reset the contents of the target file
-        try "".data(using: .utf8)!.write(to: url);
-        let fileHandle = try FileHandle(forWritingTo: url)
+//        try "".data(using: .utf8)!.write(to: url);
+//        let fileHandle = try FileHandle(forWritingTo: url)
         var row = ""
         for (index, candle) in self.candles!.enumerated() {
             row += [
@@ -152,14 +163,9 @@ class Candles {
             ].joined(separator: ",") + "\n"
             if index % 100 == 0 {
                 callback(Double(index) / Double(self.candles!.count))
-                fileHandle.seekToEndOfFile()
-                fileHandle.write(row.data(using: .utf8)!)
-                row = ""
             }
         }
-        fileHandle.seekToEndOfFile()
-        fileHandle.write(row.data(using: .utf8)!)
-        fileHandle.closeFile()
+        try row.data(using: .utf8)!.write(to: url)
     }
 
 }
