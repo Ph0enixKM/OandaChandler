@@ -39,13 +39,37 @@ struct ContentView: View {
     @State var downloadProgress = 0.0
     @State var saveProgress = 0.0
     @State var isSavingFile = false
-    @State var candles = Candles()
+    @State var candles: [Candle] = []
+    @State var error: String? = nil
+    
+    func getPricing(candle: Candle) -> CandlePricing {
+        return (candle.mid ?? candle.bid ?? candle.ask)!
+    }
+    
+    func generateCSV(_ url: URL, callback: (Double) -> Void) throws {
+        var row = ""
+        for (index, candle) in self.candles.enumerated() {
+            let pricing = getPricing(candle: candle)
+            row += [
+                formatDateString(candle.time),
+                pricing.o,
+                pricing.h,
+                pricing.l,
+                pricing.c,
+                String(candle.volume)
+            ].joined(separator: ",") + "\n"
+            if index % 100 == 0 {
+                callback(Double(index) / Double(self.candles.count))
+            }
+        }
+        try row.data(using: .utf8)!.write(to: url)
+    }
     
     var body: some View {
         ZStack {
             switch state {
             case .Creating:
-                CreatingPhase(state: $state, candles: $candles, progress: $downloadProgress)
+                CreatingPhase(state: $state, candles: $candles, error: $error, progress: $downloadProgress)
             case .Fetching:
                 ProgressView(value: downloadProgress, label: {
                     Text("Downloading...")
@@ -65,7 +89,7 @@ struct ContentView: View {
                                 isSavingFile = true
                                 backgroundQueue.async {
                                     do {
-                                        try self.candles.generateCSV(save) { value in
+                                        try self.generateCSV(save) { value in
                                             DispatchQueue.main.async {
                                                 self.saveProgress = value
                                             }
@@ -101,7 +125,7 @@ struct ContentView: View {
                         }
                         Button(action: {
                             self.state = .Creating
-                            self.candles.candles = nil
+                            self.candles = []
                         }) { Text("Back") }.padding().disabled(isSavingFile)
                     }
                 }
@@ -113,10 +137,10 @@ struct ContentView: View {
                         .frame(width: 50, height: 50)
                         .padding()
                     Text("Could not download the data")
-                    Text(self.candles.error ?? "[unknown reason]").monospaced().padding()
+                    Text(self.error ?? "[unknown reason]").monospaced().padding()
                     Button(action: {
                         self.state = .Creating
-                        self.candles.candles = nil
+                        self.candles = []
                     }) { Text("Back") }.padding()
                 }
             }
