@@ -7,6 +7,7 @@
 
 import SwiftUI
 import AppKit
+import Charts
 
 func showSavePanel() -> URL? {
     let savePanel = NSSavePanel()
@@ -128,6 +129,20 @@ struct ContentView: View {
                             self.candles = []
                         }) { Text("Back") }.padding().disabled(isSavingFile)
                     }
+                    let chartCandles = stride(from: 0, to: candles.count, by: candles.count / 100).map { candles[$0] }
+                    let minSeries = chartCandles.map { Double(getPricing(candle: $0).l)! }.min()!
+                    let maxSeries = chartCandles.map { Double(getPricing(candle: $0).h)! }.max()!
+                    Chart {
+                        ForEach(chartCandles, id: \.self.time) { candle in
+                            LineMark(
+                                x: .value("Time", Date.dateFromISOString(string: candle.time)!, unit: .minute),
+                                y: .value("Low Price", Double(getPricing(candle: candle).l)!)
+                            )
+                            .foregroundStyle(Color("AccentColor").gradient)
+                        }
+                    }
+                    .chartYScale(domain: minSeries...maxSeries)
+                    .padding()
                 }
             case .Error:
                 VStack {

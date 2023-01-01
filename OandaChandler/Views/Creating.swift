@@ -138,7 +138,6 @@ struct CreatingPhase: View {
                 } else {
                     ProgressView().onAppear {
                         Task {
-                            self.authData.account_id = try await Request(authData).getAccount()
                             if let instruments = try await Request(authData).getInstruments() {
                                 self.instruments = instruments
                             }

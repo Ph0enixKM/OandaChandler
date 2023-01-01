@@ -40,7 +40,7 @@ class Request: ObservableObject {
     }
     
     func getInstruments() async throws -> [String]? {
-        guard let account_id = authData.account_id else {
+        guard let account_id = authData.accountId else {
             return nil
         }
         var result: [String] = []

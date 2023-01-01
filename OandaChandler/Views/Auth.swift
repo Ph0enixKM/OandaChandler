@@ -12,15 +12,6 @@ struct Auth: View {
     @EnvironmentObject var authData: AuthData
     @FocusState var isTokenFocused: Bool
 
-    func getAccountId() {
-        Task {
-            let value = try await Request(authData).getAccount()
-            DispatchQueue.main.async {
-                authData.account_id = value
-            }
-        }
-    }
-
     var body: some View {
         VStack {
             Image(systemName: "key.viewfinder")
@@ -35,17 +26,30 @@ struct Auth: View {
                     SecureField("Insert here your Oanda API Token", text: $authData.token)
                         .focused($isTokenFocused).onChange(of: authData.token) { item in
                             storeDataInKeychain("token", data: authData.token)
-                            getAccountId()
+                            authData.updateAccountId()
                         }.frame(width: 200)
                     Picker("", selection: $authData.mode) {
                         Text("FX Trade").tag(OandaMode.FXTrade)
                         Text("FX Practice").tag(OandaMode.FXPractice)
                     } .onChange(of: authData.mode) { mode in
                         storeDataInKeychain("mode", data: modeToValue(authData.mode))
-                        getAccountId()
+                        authData.updateAccountId()
                     }.frame(width: 200)
                 }
                 Text("The api token will be stored securely in your keychain.").font(.footnote)
+                Spacer()
+                if let id = authData.accountId {
+                    HStack {
+                        Image(systemName: "wifi")
+                        Text("Account ID: \(id)")
+                    }.padding()
+                } else {
+                    HStack {
+                        Image(systemName: "wifi.slash")
+                        Text("You are not connected")
+                    }.padding()
+                }
+                
             }
         }
     }

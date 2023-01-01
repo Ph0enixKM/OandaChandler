@@ -10,11 +10,17 @@ import Foundation
 class AuthData: ObservableObject {
     @Published var token = getDataFromKeychain("token") ?? "";
     @Published var mode = valueToMode(getDataFromKeychain("mode") ?? "fxt")
-    @Published var account_id: String? = nil
+    @Published var accountId: String? = getDataFromKeychain("accountId")
     
     func updateAccountId() {
         Task {
-            self.account_id = try await Request(self).getAccount()
+            let value = try await Request(self).getAccount()
+            DispatchQueue.main.async {
+                self.accountId = value
+                if let id = value {
+                    storeDataInKeychain("accountId", data: id)
+                }
+            }
         }
     }
     

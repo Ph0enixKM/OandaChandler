@@ -29,16 +29,16 @@ struct TradingCronicalApp: App {
         WindowGroup {
             ZStack {
                 // Background Gradient
-//                LinearGradient(colors: [
-//                    Color(red: 95/255, green: 42/255, blue: 0),
-//                    Color(red: 40/255, green: 17/255, blue: 0)
-//                ], startPoint: .topLeading, endPoint: .bottom)
+                LinearGradient(colors: [
+                    Color(red: 95/255, green: 42/255, blue: 0),
+                    Color(red: 40/255, green: 17/255, blue: 0)
+                ], startPoint: .topLeading, endPoint: .bottom)
                 NavigationSplitView(columnVisibility: $sideBarVisibility) {
                     List(SideBarItem.allCases, selection: $selected) { item in
                         NavigationLink(value: item) {
                             Image(systemName: sideBarIcon(item)).foregroundColor(.accentColor)
                             Text(item.rawValue.localizedCapitalized)
-                        }.disabled(self.authData.account_id == nil && item == .export)
+                        }.disabled(self.authData.accountId == nil && item == .export)
                     }
                 } detail: {
                     switch selected {
@@ -50,12 +50,9 @@ struct TradingCronicalApp: App {
                         ContentView()
                             .environmentObject(authData)
                     }
-                }.onChange(of: authData.account_id) { auth in
-                    if auth == nil {
-                        selected = SideBarItem.auth
-                    }
-                }.onAppear {
-                    if authData.account_id == nil {
+                }
+                .onAppear {
+                    if authData.accountId == nil {
                         selected = SideBarItem.auth
                     }
                 }
@@ -66,13 +63,13 @@ struct TradingCronicalApp: App {
                     Button(action: {
                         self.authData.updateAccountId()
                     }, label: {
-                        if self.authData.account_id != nil {
+                        if self.authData.accountId != nil {
                             Image(systemName: "wifi")
                         } else {
                             Image(systemName: "wifi.slash")
                         }
                     }).help("Reconnect")
-                        .animation(.default, value: self.authData.account_id)
+                        .animation(.default, value: self.authData.accountId)
                         .onAppear(perform: self.authData.updateAccountId)
                 })
             }
