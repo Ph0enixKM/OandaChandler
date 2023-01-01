@@ -11,13 +11,16 @@ import SwiftUI
 struct Auth: View {
     @EnvironmentObject var authData: AuthData
     @FocusState var isTokenFocused: Bool
-    
+
     func getAccountId() {
         Task {
-            authData.account_id = try await Request(authData).getAccount()
+            let value = try await Request(authData).getAccount()
+            DispatchQueue.main.async {
+                authData.account_id = value
+            }
         }
     }
-    
+
     var body: some View {
         VStack {
             Image(systemName: "key.viewfinder")

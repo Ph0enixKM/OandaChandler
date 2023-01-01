@@ -156,12 +156,12 @@ struct CreatingPhase: View {
                     "From",
                     selection: $from,
                     displayedComponents: [.date]
-                ).datePickerStyle(.graphical).frame(width: 200)
+                ).frame(width: 200)
                 DatePicker(
                     "To",
                     selection: $to,
                     displayedComponents: [.date]
-                ).datePickerStyle(.graphical).frame(width: 200)
+                ).frame(width: 200)
             }.padding()
             Button(action: {
                 storeDataInKeychain("token", data: self.authData.token)
