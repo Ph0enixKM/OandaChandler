@@ -70,7 +70,7 @@ struct ContentView: View {
         ZStack {
             switch state {
             case .Creating:
-                CreatingPhase(state: $state, candles: $candles, error: $error, progress: $downloadProgress)
+                CreatingView(state: $state, candles: $candles, error: $error, progress: $downloadProgress)
             case .Fetching:
                 ProgressView(value: downloadProgress, label: {
                     Text("Downloading...")
@@ -136,7 +136,7 @@ struct ContentView: View {
                         ForEach(chartCandles, id: \.self.time) { candle in
                             LineMark(
                                 x: .value("Time", Date.dateFromISOString(string: candle.time)!, unit: .minute),
-                                y: .value("Low Price", Double(getPricing(candle: candle).l)!)
+                                y: .value("Low Price", Double(getPricing(candle: candle).c)!)
                             )
                             .foregroundStyle(Color("AccentColor").gradient)
                         }

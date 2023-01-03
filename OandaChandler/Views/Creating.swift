@@ -35,7 +35,7 @@ func hour(_ amount: Double) -> TimeInterval {
     return 60 * 60 * amount
 }
 
-struct CreatingPhase: View {
+struct CreatingView: View {
     @EnvironmentObject var authData: AuthData
     @Binding var state: AppState
     @Binding var candles: [Candle]
@@ -162,6 +162,7 @@ struct CreatingPhase: View {
                     displayedComponents: [.date]
                 ).frame(width: 200)
             }.padding()
+            Spacer()
             Button(action: {
                 storeDataInKeychain("token", data: self.authData.token)
                 storeDataInKeychain("mode", data: modeToValue(self.authData.mode))
@@ -178,7 +179,27 @@ struct CreatingPhase: View {
                         self.state = .Error
                     }
                 }
-            }) { Text("Submit") }
+            }) {
+                VStack {
+                    Image(systemName: "arrow.down.doc")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 30, height: 30)
+                    Text("Download")
+                }
+            }.buttonStyle(.borderless)
+            Spacer()
         }.padding().frame(maxHeight: .infinity, alignment: .top)
+    }
+}
+
+struct CreatingView_Previews: PreviewProvider {
+    static var previews: some View {
+        CreatingView(
+            state: .constant(AppState.Creating),
+            candles: .constant([Candle]()),
+            error: .constant(nil),
+            progress: .constant(0.0)
+        )
     }
 }
