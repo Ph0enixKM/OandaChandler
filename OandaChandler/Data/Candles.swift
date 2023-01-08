@@ -26,9 +26,9 @@ struct Candle: Decodable {
 enum CandlePricingType: String, CaseIterable, Identifiable {
     var id: String { rawValue }
 
+    case ask
     case mid
     case bid
-    case ask
     
     func getName() -> String {
         switch self {

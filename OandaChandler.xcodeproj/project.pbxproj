@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		3B226E542962D88100804ACA /* Socket in Frameworks */ = {isa = PBXBuildFile; productRef = 3B226E532962D88100804ACA /* Socket */; };
+		3B3349F3296B050500A0F03C /* Background.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B3349F2296B050500A0F03C /* Background.swift */; };
 		3B5B5B20296199840084E90F /* Request.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B5B5B1F296199840084E90F /* Request.swift */; };
 		3B5B5B222961B6500084E90F /* Granularity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B5B5B212961B6500084E90F /* Granularity.swift */; };
 		3B714143295B24BC00B5358A /* OandaChandlerApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B714142295B24BC00B5358A /* OandaChandlerApp.swift */; };
@@ -23,6 +24,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		3B3349F2296B050500A0F03C /* Background.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Background.swift; sourceTree = "<group>"; };
 		3B5B5B1F296199840084E90F /* Request.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Request.swift; sourceTree = "<group>"; };
 		3B5B5B212961B6500084E90F /* Granularity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Granularity.swift; sourceTree = "<group>"; };
 		3B71413F295B24BC00B5358A /* OandaChandler.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OandaChandler.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -95,8 +97,9 @@
 		3BD8BCCB296077EE00B7A908 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				3B79971B295C6DB500AD242A /* Creating.swift */,
 				3BD8BCCD29607E5600B7A908 /* Auth.swift */,
+				3B79971B295C6DB500AD242A /* Creating.swift */,
+				3B3349F2296B050500A0F03C /* Background.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -187,6 +190,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3B3349F3296B050500A0F03C /* Background.swift in Sources */,
 				3B79971C295C6DB500AD242A /* Creating.swift in Sources */,
 				3BD8BCCA2960779800B7A908 /* Date.swift in Sources */,
 				3B5B5B222961B6500084E90F /* Granularity.swift in Sources */,

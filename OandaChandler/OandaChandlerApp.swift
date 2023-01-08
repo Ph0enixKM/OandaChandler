@@ -28,11 +28,7 @@ struct TradingCronicalApp: App {
     var body: some Scene {
         WindowGroup {
             ZStack {
-                // Background Gradient
-                LinearGradient(colors: [
-                    Color(red: 95/255, green: 42/255, blue: 0),
-                    Color(red: 40/255, green: 17/255, blue: 0)
-                ], startPoint: .topLeading, endPoint: .bottom)
+                Background()
                 NavigationSplitView(columnVisibility: $sideBarVisibility) {
                     List(SideBarItem.allCases, selection: $selected) { item in
                         NavigationLink(value: item) {

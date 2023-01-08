@@ -53,7 +53,7 @@ class Request: ObservableObject {
                 }
             }
         }
-        return result
+        return result.sorted()
     }
     
     func getCandles(from: Date, to: Date, gran: Granularity, instrument: String, pricing: CandlePricingType) async throws -> Result<CandleData, RequestError> {
