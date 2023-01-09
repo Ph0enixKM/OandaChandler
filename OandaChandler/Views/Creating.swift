@@ -7,6 +7,7 @@
 
 import Foundation
 import SwiftUI
+import Algorithms
 
 enum OandaMode {
     case FXTrade
@@ -50,7 +51,7 @@ struct CreatingView: View {
     
     func fetchCandles(cb: (Double) -> Void) async {
         let request = Request(authData)
-        let hour_count: Double = 8
+        let hour_count: Double = granularity.getTimeOffset()
         let fromDate = Calendar.current.date(bySettingHour: 1, minute: 0, second: 0, of: from)!
         let toDate = Calendar.current.date(bySettingHour: 1, minute: 0, second: 0, of: to)!
         // Get the total amount of time units to calculate
@@ -118,6 +119,7 @@ struct CreatingView: View {
             .sorted(by: { (a, b) in a.0 < b.0 })
             .map { $0.1 }
             .reduce([], +)
+            .uniqued(on: \.time)
     }
     
     var body: some View {

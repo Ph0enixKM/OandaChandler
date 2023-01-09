@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		3B226E542962D88100804ACA /* Socket in Frameworks */ = {isa = PBXBuildFile; productRef = 3B226E532962D88100804ACA /* Socket */; };
 		3B3349F3296B050500A0F03C /* Background.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B3349F2296B050500A0F03C /* Background.swift */; };
 		3B5B5B20296199840084E90F /* Request.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B5B5B1F296199840084E90F /* Request.swift */; };
 		3B5B5B222961B6500084E90F /* Granularity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B5B5B212961B6500084E90F /* Granularity.swift */; };
@@ -18,6 +17,7 @@
 		3B79971C295C6DB500AD242A /* Creating.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B79971B295C6DB500AD242A /* Creating.swift */; };
 		3B87BEC52961001800CCE50D /* AuthData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B87BEC42961001800CCE50D /* AuthData.swift */; };
 		3B87BEC62961019500CCE50D /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3B714149295B24BE00B5358A /* Preview Assets.xcassets */; };
+		3BB3AD2B296CC1BF00D5BDB3 /* Algorithms in Frameworks */ = {isa = PBXBuildFile; productRef = 3BB3AD2A296CC1BF00D5BDB3 /* Algorithms */; };
 		3BD8BCCA2960779800B7A908 /* Date.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BD8BCC92960779800B7A908 /* Date.swift */; };
 		3BD8BCCE29607E5600B7A908 /* Auth.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BD8BCCD29607E5600B7A908 /* Auth.swift */; };
 		3BD8BCD029608A3F00B7A908 /* KeychainController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BD8BCCF29608A3F00B7A908 /* KeychainController.swift */; };
@@ -46,7 +46,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3B226E542962D88100804ACA /* Socket in Frameworks */,
+				3BB3AD2B296CC1BF00D5BDB3 /* Algorithms in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -131,7 +131,7 @@
 			);
 			name = OandaChandler;
 			packageProductDependencies = (
-				3B226E532962D88100804ACA /* Socket */,
+				3BB3AD2A296CC1BF00D5BDB3 /* Algorithms */,
 			);
 			productName = TradingCronical;
 			productReference = 3B71413F295B24BC00B5358A /* OandaChandler.app */;
@@ -162,7 +162,7 @@
 			);
 			mainGroup = 3B714136295B24BC00B5358A;
 			packageReferences = (
-				3B226E522962D88100804ACA /* XCRemoteSwiftPackageReference "BlueSocket" */,
+				3BB3AD29296CC1BF00D5BDB3 /* XCRemoteSwiftPackageReference "swift-algorithms" */,
 			);
 			productRefGroup = 3B714140295B24BC00B5358A /* Products */;
 			projectDirPath = "";
@@ -402,21 +402,21 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		3B226E522962D88100804ACA /* XCRemoteSwiftPackageReference "BlueSocket" */ = {
+		3BB3AD29296CC1BF00D5BDB3 /* XCRemoteSwiftPackageReference "swift-algorithms" */ = {
 			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/Kitura/BlueSocket.git";
+			repositoryURL = "https://github.com/apple/swift-algorithms.git";
 			requirement = {
 				kind = upToNextMajorVersion;
-				minimumVersion = 2.0.0;
+				minimumVersion = 1.0.0;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		3B226E532962D88100804ACA /* Socket */ = {
+		3BB3AD2A296CC1BF00D5BDB3 /* Algorithms */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 3B226E522962D88100804ACA /* XCRemoteSwiftPackageReference "BlueSocket" */;
-			productName = Socket;
+			package = 3BB3AD29296CC1BF00D5BDB3 /* XCRemoteSwiftPackageReference "swift-algorithms" */;
+			productName = Algorithms;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

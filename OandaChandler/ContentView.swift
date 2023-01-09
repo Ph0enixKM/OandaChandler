@@ -129,7 +129,9 @@ struct ContentView: View {
                             self.candles = []
                         }) { Text("Back") }.padding().disabled(isSavingFile)
                     }
-                    let chartCandles = stride(from: 0, to: candles.count, by: candles.count / 100).map { candles[$0] }
+                    let chartCandles = candles.count > 100
+                        ? stride(from: 0, to: candles.count, by: candles.count / 100).map { candles[$0] }
+                        : candles
                     let minSeries = chartCandles.map { Double(getPricing(candle: $0).l)! }.min()!
                     let maxSeries = chartCandles.map { Double(getPricing(candle: $0).h)! }.max()!
                     Chart {

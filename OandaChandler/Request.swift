@@ -26,6 +26,7 @@ class Request: ObservableObject {
         let url = URL(string: uri)!
         var req = URLRequest(url: url)
         req.addValue("Bearer \(authData.token)", forHTTPHeaderField: "Authorization")
+        print(uri)
         return try await URLSession.shared.data(for: req)
     }
     
